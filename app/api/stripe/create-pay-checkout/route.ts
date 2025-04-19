@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    return NextResponse.json(session);
+    return NextResponse.json({ sessionId: session.id }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

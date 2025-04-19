@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
   const metadata = {
     testeId,
     price,
+    userId,
   };
 
   // Precisamos criar um cliene na stripe para ter a referencia do cliente quando for criar o portal
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    return NextResponse.json(session);
+    return NextResponse.json({ sessionId: session.id }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

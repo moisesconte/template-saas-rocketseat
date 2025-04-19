@@ -9,7 +9,7 @@ const secretKey = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const body = await req.text();
     const headersList = await headers();
     const signature = headersList.get("stripe-signature");
 
@@ -61,8 +61,13 @@ export async function POST(req: NextRequest) {
         await handleStripeCancelSubscription(event);
         break;
       default:
-        throw new Error(`Unhandled event type ${event.type}`);
+        console.log(`Evento não tratado: ${event.type}`);
     }
+
+    return NextResponse.json(
+      { message: "Evento processado com sucesso" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Erro ao processar o evento", error);
     return NextResponse.json(
